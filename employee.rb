@@ -27,15 +27,15 @@ class Employee < ActiveRecord::Base
     @satisfactory = (positive_matches > negative_matches)
   end
 
-  def set_employee_performance(boolean)
-    @satisfactory = boolean
-  end
-
   def raise_by_percent(raise_percentage)
-    @salary += (@salary * raise_percentage)
+    self.salary += (self.salary * raise_percentage)
+    self.save
+    self.salary
   end
 
   def raise_by_amount(raise_amount)
-    @salary += raise_amount
+    self.salary += raise_amount
+    self.save
+    self.salary
   end
 end
