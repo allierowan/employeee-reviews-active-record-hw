@@ -5,12 +5,15 @@ require './migration'
 
 class EmployeeReviews < Minitest::Test
 
-  begin
-    InitialMigration.migrate(:down)
-  rescue
-  end
+  def setup
+    ActiveRecord::Migration.verbose = false
+    begin
+      InitialMigration.migrate(:down)
+    rescue
+    end
 
-  InitialMigration.migrate(:up)
+    InitialMigration.migrate(:up)
+  end
 
   def test_classes_exist
     assert Department
@@ -18,14 +21,13 @@ class EmployeeReviews < Minitest::Test
   end
 
   def test_can_create_new_department
-    a = Department.new("Marketing")
-    assert a
-    assert_equal "Marketing", a.name
+    a = Department.create!(name: "Marketing")
+    refute_equal nil, a.id
   end
 
   def test_can_create_new_employee
-    new_employee = Employee.new(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
-    assert new_employee
+    new_employee = Employee.create!(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+    refute_equal nil, new_employee.id
   end
 
   def test_can_add_employee_to_a_department

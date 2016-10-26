@@ -1,3 +1,4 @@
+require './db_connection'
 
 class Employee < ActiveRecord::Base
   attr_reader :name, :email, :phone, :salary, :review, :satisfactory
