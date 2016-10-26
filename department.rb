@@ -30,4 +30,8 @@ class Department < ActiveRecord::Base
   def least_paid_employee
     all_employees.order(salary: :asc).first
   end
+
+  def employees_sorted_alphabetically
+    all_employees.order(name: :asc)
+  end
 end
