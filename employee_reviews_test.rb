@@ -1,8 +1,16 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require './department'
+require './migration'
 
 class EmployeeReviews < Minitest::Test
+
+  begin
+    InitialMigration.migrate(:down)
+  rescue
+  end
+
+  InitialMigration.migrate(:up)
 
   def test_classes_exist
     assert Department

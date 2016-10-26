@@ -1,5 +1,5 @@
 
-class Employee
+class Employee < ActiveRecord::Base
   attr_reader :name, :email, :phone, :salary, :review, :satisfactory
 
   def initialize(name: nil, email: nil, phone: nil, salary: nil)

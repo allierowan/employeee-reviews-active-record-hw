@@ -1,6 +1,7 @@
 require './employee'
+require './db_connection'
 
-class Department
+class Department < ActiveRecord::Base
   attr_reader :name, :staff, :review
 
   def initialize(department_name)
