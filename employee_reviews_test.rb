@@ -104,14 +104,16 @@ class EmployeeReviews < Minitest::Test
     old_employee.satisfactory = false
     old_employee.save
     a.department_raise(14000.00) {|e| e.satisfactory == true && e.salary < 60000.00}
-
+    xavier.reload.salary
+    new_employee.reload.salary
+    old_employee.reload.salary
     assert_equal 70000.00, xavier.salary
     assert_equal 64000.00, new_employee.salary
     assert_equal 40000.00, old_employee.salary
   end
 
   def test_evaluate_employee_review
-    xavier = Employee.new(name: 'Xavier', email: 'ProfX@marvel.com', phone: '911', salary: 70000.00)
+    xavier = Employee.create!(name: 'Xavier', email: 'ProfX@marvel.com', phone: '911', salary: 70000.00)
     xavier.add_employee_review(positive_review_one)
     assert xavier.satisfactory
   end
