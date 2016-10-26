@@ -1,8 +1,10 @@
 require './db_connection'
 
 class Employee < ActiveRecord::Base
+  belongs_to :department
 
   def add_employee_review(review)
+
     self.review = review
     positive_matches = 0
     negative_matches = 0

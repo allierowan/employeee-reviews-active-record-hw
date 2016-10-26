@@ -2,6 +2,7 @@ require './db_connection'
 require './employee'
 
 class Department < ActiveRecord::Base
+  has_many :employees
 
   def add_employee(new_employee)
     new_employee.department_id = self.id
@@ -41,5 +42,11 @@ class Department < ActiveRecord::Base
 
   def employees_paid_above_average
     all_employees.select { |e| e.salary > average_employee_salary }
+  end
+
+  def self.biggest_department
+    dept_sizes = Department.joins(:employees).group(:id).count('employees.id')
+    largest_id = dept_sizes.max_by { |key, value| value }[0]
+    Department.find(largest_id)
   end
 end
