@@ -9,7 +9,7 @@ class Department < ActiveRecord::Base
   end
 
   def department_salary
-    staff = Employee.where(department_id: self.id)
+    staff = Employee.where(department_id: self.id).to_a
     staff.reduce(0.0) {|sum, e| sum + e.salary}
   end
 
@@ -18,8 +18,9 @@ class Department < ActiveRecord::Base
   # end
 
   def department_raise(alloted_amount)
-    raise_eligible = @staff.select {|e| yield(e)}
+    raise_eligible = Employee.where(department_id: self.id).select {|e| yield(e)}.to_a
     amount = alloted_amount / raise_eligible.length
-    raise_eligible.each {|e| e.raise_by_amount(amount)}
+    raise_eligible.each { |e| e.raise_by_amount(amount) }
+    
   end
 end

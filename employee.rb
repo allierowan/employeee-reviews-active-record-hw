@@ -29,13 +29,15 @@ class Employee < ActiveRecord::Base
 
   def raise_by_percent(raise_percentage)
     self.salary += (self.salary * raise_percentage)
-    self.save
+    self.save!
+    self.reload
     self.salary
   end
 
   def raise_by_amount(raise_amount)
     self.salary += raise_amount
-    self.save
+    self.save!
+    self.reload
     self.salary
   end
 end
