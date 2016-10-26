@@ -21,6 +21,9 @@ class Department < ActiveRecord::Base
     raise_eligible = Employee.where(department_id: self.id).select {|e| yield(e)}.to_a
     amount = alloted_amount / raise_eligible.length
     raise_eligible.each { |e| e.raise_by_amount(amount) }
-    
+  end
+
+  def all_employees
+    Employee.where(department_id: self.id)
   end
 end
