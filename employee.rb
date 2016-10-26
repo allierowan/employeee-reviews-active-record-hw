@@ -38,4 +38,8 @@ class Employee < ActiveRecord::Base
     self.save!
     self.salary
   end
+
+  def name_is_palindrome?
+    self.name.downcase.gsub(" ", "") == self.name.downcase.gsub(" ", "").reverse
+  end
 end
