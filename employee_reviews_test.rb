@@ -194,7 +194,6 @@ class EmployeeReviews < Minitest::Test
     dogs.add_employee(ziggy)
     dogs.add_employee(bean)
     cats.add_employee(twix)
-
     assert_equal dogs, Department.biggest_department
   end
 
@@ -209,6 +208,21 @@ class EmployeeReviews < Minitest::Test
     cats.add_employee(twix)
     dogs.move_to!(cats)
     assert_equal 3, cats.all_employees.size
+  end
+
+  def test_raise_all_employees_by_percent
+    ziggy = Employee.create!(name: "Ziggy", salary: 10000, satisfactory: true)
+    bean = Employee.create!(name: "Bean", salary: 15000, satisfactory: false)
+    twix = Employee.create!(name: "Twix", salary: 20000, satisfactory: true)
+    dogs = Department.create!(name: "Dogs")
+    cats = Department.create!(name: "Cats")
+    dogs.add_employee(ziggy)
+    dogs.add_employee(bean)
+    cats.add_employee(twix)
+    Department.salary_raise(0.1) { |emp| emp.satisfactory == true }
+    assert_equal 11000, ziggy.reload.salary
+    assert_equal 15000, bean.reload.salary
+    assert_equal 22000, twix.reload.salary
   end
 
   private def negative_review_one

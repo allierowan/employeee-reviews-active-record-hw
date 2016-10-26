@@ -44,16 +44,29 @@ class Department < ActiveRecord::Base
     all_employees.select { |e| e.salary > average_employee_salary }
   end
 
-  def self.biggest_department
-    dept_sizes = Department.joins(:employees).group(:id).count('employees.id')
-    largest_id = dept_sizes.max_by { |key, value| value }[0]
-    Department.find(largest_id)
-  end
+  def department_size
+     Employee.where(department_id: self.id).size
+   end
+
+   def self.biggest_department
+     a = Department.all.max_by { |dept| dept.department_size }
+   end
 
   def move_to!(department)
     all_employees.each do |emp|
       emp.department_id = department.id
       emp.save
     end
+  end
+
+  def self.salary_raise(percent)
+    global_employees = []
+    Department.all.each do |dept|
+      dept.all_employees.each do |emp|
+        global_employees << emp
+      end
+    end
+    raise_eligible = global_employees.select { |emp| yield(emp) }
+    raise_eligible.each { |e| e.raise_by_percent(percent) }
   end
 end
