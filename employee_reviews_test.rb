@@ -31,38 +31,38 @@ class EmployeeReviews < Minitest::Test
   end
 
   def test_can_add_employee_to_a_department
-    a = Department.new("Marketing")
-    new_employee = Employee.new(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+    a = Department.create!(name: "Marketing")
+    new_employee = Employee.create!(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
     a.add_employee(new_employee)
-    assert_equal [new_employee], a.staff
+    refute_equal nil, new_employee.department_id
   end
 
   def test_can_get_employee_name
-    new_employee = Employee.new(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+    new_employee = Employee.create!(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
     assert_equal "Dan", new_employee.name
   end
 
   def test_can_get_employee_salary
-    new_employee = Employee.new(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+    new_employee = Employee.create!(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
     assert_equal 50000.00, new_employee.salary
   end
 
   def test_can_get_a_department_name
-    a = Department.new("Marketing")
+    a = Department.create!(name: "Marketing")
     assert_equal "Marketing", a.name
   end
 
   def test_total_department_salary
-    a = Department.new("Marketing")
-    new_employee = Employee.new(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
-    old_employee = Employee.new(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000.00)
+    a = Department.create!(name: "Marketing")
+    new_employee = Employee.create!(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+    old_employee = Employee.create!(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000.00)
     assert a.add_employee(new_employee)
     assert a.add_employee(old_employee)
     assert_equal 90000.00, a.department_salary
   end
 
   def test_add_employee_review
-    xavier = Employee.new(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
+    xavier = Employee.create!(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
     assert xavier.add_employee_review(positive_review_one)
   end
 

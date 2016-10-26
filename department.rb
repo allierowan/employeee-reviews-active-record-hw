@@ -4,11 +4,13 @@ require './employee'
 class Department < ActiveRecord::Base
 
   def add_employee(new_employee)
-    @staff << new_employee
+    new_employee.department_id = self.id
+    new_employee.save
   end
 
   def department_salary
-    @staff.reduce(0.0) {|sum, e| sum + e.salary}
+    staff = Employee.where(department_id: self.id)
+    staff.reduce(0.0) {|sum, e| sum + e.salary}
   end
 
   # def add_employee_review(review)
