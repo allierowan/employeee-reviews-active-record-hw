@@ -131,6 +131,19 @@ class EmployeeReviews < Minitest::Test
     assert_equal 3, a.all_employees.size
   end
 
+  def test_get_least_paid_employee
+    a = Department.create!(name: "Marketing")
+    b = Department.create!(name: "Cool Kids")
+    xavier = Employee.create!(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
+    new_employee = Employee.create!(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+    old_employee = Employee.create!(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000.00)
+    another_guy = Employee.create!(name: "Dude", email: "dude@mcdudeface.com", phone: "919-555-4567", salary: 405000.00)
+    a.add_employee(xavier)
+    a.add_employee(new_employee)
+    a.add_employee(old_employee)
+    assert_equal old_employee, a.least_paid_employee
+  end
+
   private def negative_review_one
     "Zeke is a very positive person and encourages those around him, but he has not done well technically this year. There are two areas in which Zeke has room for improvement. First, when communicating verbally (and sometimes in writing), he has a tendency to use more words than are required. This conversational style does put people at ease, which is valuable, but it often makes the meaning difficult to isolate, and can cause confusion. Second, when discussing new requirements with project managers, less of the information is retained by Zeke long-term than is expected. This has a few negative consequences: 1) time is spent developing features that are not useful and need to be re-run, 2) bugs are introduced in the code and not caught because the tests lack the same information, and 3) clients are told that certain features are complete when they are inadequate. This communication limitation could be the fault of project management, but given that other developers appear to retain more information, this is worth discussing further."
   end

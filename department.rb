@@ -26,4 +26,8 @@ class Department < ActiveRecord::Base
   def all_employees
     Employee.where(department_id: self.id)
   end
+
+  def least_paid_employee
+    all_employees.order(salary: :asc).first
+  end
 end
