@@ -198,6 +198,19 @@ class EmployeeReviews < Minitest::Test
     assert_equal dogs, Department.biggest_department
   end
 
+  def test_move_employees_to_another_department
+    ziggy = Employee.create!(name: "Ziggy")
+    bean = Employee.create!(name: "Bean")
+    twix = Employee.create!(name: "Twix")
+    dogs = Department.create!(name: "Dogs")
+    cats = Department.create!(name: "Cats")
+    dogs.add_employee(ziggy)
+    dogs.add_employee(bean)
+    cats.add_employee(twix)
+    dogs.move_to!(cats)
+    assert_equal 3, cats.all_employees.size
+  end
+
   private def negative_review_one
     "Zeke is a very positive person and encourages those around him, but he has not done well technically this year. There are two areas in which Zeke has room for improvement. First, when communicating verbally (and sometimes in writing), he has a tendency to use more words than are required. This conversational style does put people at ease, which is valuable, but it often makes the meaning difficult to isolate, and can cause confusion. Second, when discussing new requirements with project managers, less of the information is retained by Zeke long-term than is expected. This has a few negative consequences: 1) time is spent developing features that are not useful and need to be re-run, 2) bugs are introduced in the code and not caught because the tests lack the same information, and 3) clients are told that certain features are complete when they are inadequate. This communication limitation could be the fault of project management, but given that other developers appear to retain more information, this is worth discussing further."
   end

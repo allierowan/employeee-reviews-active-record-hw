@@ -49,4 +49,11 @@ class Department < ActiveRecord::Base
     largest_id = dept_sizes.max_by { |key, value| value }[0]
     Department.find(largest_id)
   end
+
+  def move_to!(department)
+    all_employees.each do |emp|
+      emp.department_id = department.id
+      emp.save
+    end
+  end
 end
